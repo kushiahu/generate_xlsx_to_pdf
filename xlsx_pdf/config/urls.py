@@ -14,8 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+	#path('', include('apls.www.urls')),
+	path('admin/', admin.site.urls),
 ]
+
+
+# Media Url
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	#- import debug_toolbar
+	#- urlpatterns = [
+	#- 	path('__debug__/', include(debug_toolbar.urls)),
+	#- ] + urlpatterns
+
+
+# Custom Error Urls
+
+#- handler500 = 'apls.www.views.server_error'
+#- handler404 = 'apls.www.views.not_found'
+#- handler403 = 'apls.www.views.permission_denied'
+#- handler400 = 'apls.www.views.bad_request'
