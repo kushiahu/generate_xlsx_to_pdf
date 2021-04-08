@@ -1,0 +1,407 @@
+<!-- 
+This is intended to be rendered to a PDF using pisa, not in a browser.
+Therefore, the HTML and CSS here can look a bit fishy. Please refer to 
+http://www.htmltopdf.org/doc/pisa-en.html for reference 
+-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<style>
+/*Custom fonts*/
+/*@font-face {
+    font-family: Weird, "Weird Font";
+    src: url(test/weird.ttf)
+}
+@font-face {
+    font-family: Akkurat;
+    src: url(test/Akkurat.ttf)
+}
+@font-face {
+    font-family: Akk;
+    src: url(test/akk.otf)
+}*/
+/* Page layout */
+@page {
+    size: letter;
+    /* GRAL BOX*/
+    @frame first_lvl {
+        left: 19pt;
+        right: 19pt;
+        top: 19pt;
+        height: 1.9cm;
+    }
+    @frame {
+        -pdf-frame-content: box_unique;
+        right: 118pt;
+        top: 24pt;
+        height: 1.9cm;
+        width: 113pt
+    }
+    @frame {
+        -pdf-frame-content: box_01_small;
+        right: 19pt;
+        top: 24pt;
+        height: 1.9cm;
+        width: 96pt
+    }
+    /* Level 02*/
+    @frame {
+        -pdf-frame-content: box_01_big;
+        left: 19pt;
+        top: 62pt;
+        height: 1.9cm;
+        width: 475pt
+    }
+    @frame {
+        -pdf-frame-content: box_02_small;
+        right: 19pt;
+        top: 62pt;
+        height: 1.9cm;
+        width: 96pt
+    }
+
+    /* Level 03*/
+    @frame {
+        -pdf-frame-content: box_02_big;
+        left: 19pt;
+        top: 93pt;
+        height: 1.9cm;
+        width: 475pt
+    }
+    @frame {
+        -pdf-frame-content: box_03_small;
+        right: 19pt;
+        top: 93pt;
+        height: 1.9cm;
+        width: 96pt
+    }
+
+    /* LOGO IMAGE*/
+    @frame {
+        -pdf-frame-content: logo_image;
+        left: .8cm;
+        top: 21pt;
+        height: 1.3cm;
+        width: 2cm;
+    }
+
+    /* FIRST LEVEL*/
+    @frame {
+        -pdf-frame-content: company;
+        left: 2.3cm;
+        top: 28pt;
+    }
+    @frame {
+        -pdf-frame-content: patronal;
+        left: 2.3cm;
+        top: 41pt;
+    }
+    /* text box*/
+    @frame {
+        -pdf-frame-content: frs_lvl_trabajo;
+        left: 382pt;
+        top: 27pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_frs_lvl_trabajo;
+        left: 422pt;
+        top: 27pt;
+    }
+    @frame {
+        -pdf-frame-content: frs_lvl_obra;
+        left: 382pt;
+        top: 41pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_frs_lvl_obra;
+        left: 412pt;
+        top: 41pt;
+    }
+    @frame {
+        -pdf-frame-content: frs_lvl_nomina;
+        left: 498pt;
+        top: 26pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_frs_lvl_nomina;
+        left: 543pt;
+        top: 26pt;
+    }
+    @frame {
+        -pdf-frame-content: frs_lvl_recibo;
+        left: 498pt;
+        top: 42pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_frs_lvl_recibo;
+        left: 566pt;
+        top: 42pt;
+    }
+
+    /* SECOND LEVEL*/
+    @frame {
+        -pdf-frame-content: scn_lvl_clave;
+        left: 24pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_clave;
+        left: 24pt;
+        top: 74pt;
+    }
+    @frame {
+        -pdf-frame-content: scn_lvl_nombre;
+        left: 132pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_nombre;
+        left: 54pt;
+        top: 74pt;
+    }
+    @frame {
+        -pdf-frame-content: scn_lvl_cat;
+        left: 274pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_cat;
+        left: 242pt;
+        top: 74pt;
+    }
+    @frame {
+        -pdf-frame-content: scn_lvl_nivel;
+        left: 408pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_nivel;
+        /*left: 380pt;*/
+        left: 344pt;
+        top: 74pt;
+    }
+
+    @frame {
+        -pdf-frame-content: scn_lvl_nss;
+        left: 499pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_nss;
+        left: 520pt;
+        top: 64pt;
+    }
+    @frame {
+        -pdf-frame-content: scn_lvl_rfc;
+        left: 499pt;
+        top: 72pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_rfc;
+        left: 520pt;
+        top: 72pt;
+    }
+    @frame {
+        -pdf-frame-content: scn_lvl_curp;
+        left: 499pt;
+        top: 80pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_scn_lvl_curp;
+        left: 520pt;
+        top: 80pt;
+    }
+
+    /* THIRD LEVEL*/
+    @frame {
+        -pdf-frame-content: thr_lvl_pago;
+        left: 40pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_pago;
+        left: 28pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_periodo;
+        left: 130pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_periodo;
+        left: 148pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_descanso;
+        left: 192pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_descanso;
+        left: 214pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_laborados;
+        left: 263pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_laborados;
+        left: 298pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_faltas;
+        left: 364pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_faltas;
+        left: 372pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_infonavit;
+        left: 412pt;
+        top: 95pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_infonavit;
+        left: 430pt;
+        top: 104pt;
+    }
+    @frame {
+        -pdf-frame-content: thr_lvl_salario;
+        left: 498pt;
+        top: 100pt;
+    }
+    @frame {
+        -pdf-frame-content: rsl_thr_lvl_salario;
+        left: 562pt;
+        top: 100pt;
+    }
+}
+
+
+.first_box {
+    border-bottom: 1.4pt solid black;
+    border-top: 1.4pt solid black;
+    font-size: 32px;
+    color: white;
+}
+
+.company_box {
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.patronal_box {
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+.box_twice {
+    border: 1px solid #202f64;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    font-size: 23px;
+    color: white;
+}
+
+.boxes_trd_lvl {
+    border: 1px solid #202f64;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    font-size: 17px;
+    color: white;
+}
+
+
+.font_base {
+    font-size: 6pt;
+}
+
+.font_base_black {
+    font-size: 6pt;
+    font-weight: bold;
+}
+
+.ltr_spcng {
+    letter-spacing: -0.2pt;    
+}
+
+</style>
+<body>
+
+<!--  F I R S T   L E V E L  -->
+<div id="first_lvl" class="first_box">|</div>
+<div id="logo_image">
+    <img src="http://localhost:8000/static/logo_ditra.png" class="logo_image" />
+</div>
+<p id="company" class="company_box">DITRA SERVICIOS DE MANTENIMIENTO, S.A. DE C.V.</p>
+<p id="patronal" class="patronal_box">REGISTRO PATRONAL A1132476108</p>
+
+<div id="box_unique" class="box_twice">|</div>
+<div id="box_01_small" class="box_twice">|</div>
+<p id="frs_lvl_trabajo" class="font_base_black ltr_spcng">O. TRABAJO</p>
+<p id="frs_lvl_obra" class="font_base_black">OBRA</p>
+<p id="frs_lvl_nomina" class="font_base_black">No. NOMINA</p>
+<p id="frs_lvl_recibo" class="font_base_black">No. RECIBO</p>
+
+<p id="rsl_frs_lvl_trabajo" class="font_base">AGE 2 1RA GDA T-1</p>
+<p id="rsl_frs_lvl_obra" class="font_base">OT.250</p>
+<p id="rsl_frs_lvl_nomina" class="font_base">A-174</p>
+<p id="rsl_frs_lvl_recibo" class="font_base">1</p>
+<!--  END: F I R S T   L E V E L  -->
+
+<!--  S E C O N D   L E V E L  -->
+<div id="box_01_big" class="box_twice">|</div>
+<div id="box_02_small" class="box_twice">|</div>
+
+<p id="scn_lvl_clave" class="font_base_black">CLAVE</p>
+<p id="scn_lvl_nombre" class="font_base_black">NOMBRE</p>
+<p id="scn_lvl_cat" class="font_base_black">CATEGORIA</p>
+<p id="scn_lvl_nivel" class="font_base_black">NIVEL</p>
+<p id="scn_lvl_nss" class="font_base_black">NSS</p>
+<p id="scn_lvl_rfc" class="font_base_black">RFC</p>
+<p id="scn_lvl_curp" class="font_base_black">CURP</p>
+
+<p id="rsl_scn_lvl_clave" class="font_base">000914</p>
+<p id="rsl_scn_lvl_nombre" class="font_base">ADRIAN ANZURES CASTILLO</p>
+<p id="rsl_scn_lvl_cat" class="font_base">MECANICO</p>
+<p id="rsl_scn_lvl_nivel" class="font_base">MECANICO</p>
+<p id="rsl_scn_lvl_nss" class="font_base">81098904535</p>
+<p id="rsl_scn_lvl_rfc" class="font_base">AUCA891204T17</p>
+<p id="rsl_scn_lvl_curp" class="font_base">AUCA891204HCCNSD00</p>
+<!--  END:S E C O N D   L E V E L  -->
+
+<!--  T H I R D   L E V E L  -->
+<div id="box_02_big" class="boxes_trd_lvl">|</div>
+<div id="box_03_small" class="boxes_trd_lvl">|</div>
+
+<p id="thr_lvl_pago" class="font_base_black">PERIODO DE PAGO</p>
+<p id="thr_lvl_periodo" class="font_base_black">DIAS PERIODO</p>
+<p id="thr_lvl_descanso" class="font_base_black">DIAS DESCANSO</p>
+<p id="thr_lvl_laborados" class="font_base_black">DIAS REALES LABORADOS</p>
+<p id="thr_lvl_faltas" class="font_base_black">FALTAS</p>
+<p id="thr_lvl_infonavit" class="font_base_black">No. CREDITO INFONAVIT</p>
+<p id="thr_lvl_salario" class="font_base_black">SALARIO DIARIO $</p>
+
+<p id="rsl_thr_lvl_pago" class="font_base">13/11/2020&nbsp;&nbsp;&nbsp;&nbsp;AL&nbsp;&nbsp;&nbsp;&nbsp;26/11/2020</p>
+<p id="rsl_thr_lvl_periodo" class="font_base">14</p>
+<p id="rsl_thr_lvl_descanso" class="font_base">14</p>
+<p id="rsl_thr_lvl_laborados" class="font_base">14</p>
+<p id="rsl_thr_lvl_faltas" class="font_base">14</p>
+<p id="rsl_thr_lvl_infonavit" class="font_base">5419021047</p>
+<p id="rsl_thr_lvl_salario" class="font_base">350.85</p>
+
+<!--  END: T H I R D   L E V E L  -->
+
+</body>
+</html>
