@@ -62,13 +62,14 @@ def link_callback(uri, rel):
 
 def render_pdf_view(request):
 	template_path = 'pdf/base_pdf.html'
-	context = {'patronal': 'A1132476018'}
+	lvl = {}
+	ctx = {'patronal': 'A1132476018'}
 	# Create a Django response object, and specify content_type as pdf
 	response = HttpResponse(content_type='application/pdf')
 	#response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 	# find the template and render it.
 	template = get_template(template_path)
-	html = template.render(context)
+	html = template.render(ctx)
 
 	# create a pdf
 	pisa_status = pisa.CreatePDF(
