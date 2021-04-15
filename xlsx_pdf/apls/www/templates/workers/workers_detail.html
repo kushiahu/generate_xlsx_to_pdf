@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reportes del trabajador</title>
+</head>
+<body>
+
+<h2>Datos de {{ worker_obj.key_code }} - {{ worker_obj.full_name }}</h2>
+
+<ul>
+	{% for report in report_lst %}
+	<li>{{ report.no_paysheet }}</li>
+	{% endfor %}
+</ul>
+
+
+</body>
+</html>

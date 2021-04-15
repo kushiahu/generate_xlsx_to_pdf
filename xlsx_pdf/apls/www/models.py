@@ -47,6 +47,10 @@ class Worker(models.Model):
 		verbose_name = "Worker"
 		verbose_name_plural = "Workers"
 
+	@property
+	def full_name(self):
+		return '%s %s %s' % (self.name, self.first_name, self.last_name)
+
 	def __str__(self):
 		return self.key_code
 
@@ -54,11 +58,14 @@ class Worker(models.Model):
 class Reports(models.Model):
 
 	id_uuid = models.CharField(default=uuid.uuid4, max_length=36, editable=False)
-	worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
+	worker = models.ForeignKey(
+		Worker, related_name='reports',
+		related_query_name='reports',
+		on_delete=models.CASCADE)
 
 	work_order = models.CharField(max_length=64)
 	obra = models.CharField(max_length=32)
-	no_paysheet = models.PositiveIntegerField()
+	no_paysheet = models.PositiveIntegerField()		# Numero de nomina
 
 	category = models.CharField(max_length=120)
 
@@ -104,3 +111,18 @@ class Reports(models.Model):
 	special_discounts = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)		# Descuento especial
 	debts = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)					# Adeudo empresa amort
 	total_deductions = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)		# TOTAL deducciones
+
+	class Meta:
+		verbose_name = "Report"
+		verbose_name_plural = "Reports"
+
+	def __str__(self):
+		return str(self.category)
+
+
+
+
+# files
+class BaseFile(models.Model):
+	file = models.FileField(upload_to='excel_files/')
+	created = models.DateTimeField(auto_now_add=True)

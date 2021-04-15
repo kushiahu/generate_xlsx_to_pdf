@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lista de Trabajadores</title>
+</head>
+<body>
+
+	<div>
+		<ul>
+		{% for worker in workers %}
+			<li>{{ worker.key_code }} - {{ worker.full_name }}</li>			
+		{% endfor %}
+		</ul>
+	</div>
+
+</body>
+</html>
