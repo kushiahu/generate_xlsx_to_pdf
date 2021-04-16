@@ -13,26 +13,49 @@ from xhtml2pdf import pisa
 # Models
 from .models import Worker, Reports
 from .forms import BaseFileForm
-from .utils import format_key_code
+from .utils import format_key_code, nan_to_dec
 
 
 # Create your views here.
 def index(request):
-	return HttpResponse("Hello, world. Diavaz project!")
+	ctx = {
+		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).distinct()[:16]
+	}
+	return render(request, 'site/index.html', ctx)
 
 
 def workers_view(request):
+	# Worker.objects.all()
 	ctx = {
-		'workers': Worker.objects.all()
+		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).distinct()
 	}
 	return render(request, 'workers/workers_list.html', ctx)
 
 
-def worker_detail(request, key_code):
+def adm_worker_detail(request, key_code):
 	try:
 		worker_obj = Worker.objects.get(key_code=key_code)
 		report_lst = worker_obj.reports.all()
 		#print(report_lst)
+		ctx = {
+			'worker_obj': worker_obj,
+			'report_lst': report_lst,
+		}
+	except Exception as e:
+		raise
+	return render(request, 'workers/workers_detail.html', ctx)
+
+def reports_view(request):
+	ctx = {
+		'reports': Reports.objects.all()
+	}
+	return render(request, 'workers/reports_list.html', ctx)
+
+
+def worker_detail(request, id_uuid):
+	try:
+		worker_obj = Worker.objects.get(id_uuid=id_uuid)
+		report_lst = worker_obj.reports.all()
 		ctx = {
 			'worker_obj': worker_obj,
 			'report_lst': report_lst,
@@ -106,7 +129,7 @@ def render_pdf_view(request):
 	return response
 
 
-def report_pdf_view(request, key_code, no_paysheet):
+def adm_report_pdf_view(request, key_code, no_paysheet):
 	template_path = 'pdf/base_pdf.html'
 	ctx = None
 	try:
@@ -121,6 +144,39 @@ def report_pdf_view(request, key_code, no_paysheet):
 	# Create a Django response object, and specify content_type as pdf
 	response = HttpResponse(content_type='application/pdf')
 	#response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+	# find the template and render it.
+	template = get_template(template_path)
+	html = template.render(ctx)
+
+	# create a pdf
+	pisa_status = pisa.CreatePDF(
+		html, dest=response, link_callback=link_callback)
+	# if error then show some funy view
+	if pisa_status.err:
+		return HttpResponse('We had some errors <pre>' + html + '</pre>')
+	return response
+
+
+def report_pdf_view(request, key_code, id_uuid):
+	template_path = 'pdf/base_pdf.html'
+	# ?print=True
+	can_print = request.GET.get('print')
+	name_pdf = 'report'
+	ctx = None
+	try:
+		worker_obj = Worker.objects.get(key_code=key_code)
+		report_obj = worker_obj.reports.get(id_uuid=id_uuid)
+		ctx = {
+			'worker_obj': worker_obj,
+			'report_obj': report_obj,
+		}
+		name_pdf = '%s - nómina_%s' % (worker_obj.key_code, report_obj.no_paysheet)
+	except Exception as e:
+		raise
+	# Create a Django response object, and specify content_type as pdf
+	response = HttpResponse(content_type='application/pdf')
+	if can_print:
+		response['Content-Disposition'] = 'attachment; filename="' + name_pdf + '.pdf"'
 	# find the template and render it.
 	template = get_template(template_path)
 	html = template.render(ctx)
@@ -183,42 +239,24 @@ def upload_report_file(request):
 			if (not math.isnan(data['NUMERO DE NÓMINA'][i]) and 
 				not worker_obj.reports.filter(no_paysheet=int(data['NUMERO DE NÓMINA'][i])).exists()):
 				print('save: ' + key_code)
-
-				print(str(data['ORDEN DE TRABAJO'][i]))
-				print(str(data['OBRA'][i]))
-				print(int(data['NUMERO DE NÓMINA'][i]))
-				print(str(data['CATEGORIA'][i]))
-				print(str(data['INICIO DE DIAS REALES'][i])[:10])
-				print(str(data['FIN DE DIAS REALES'][i])[:10])
-				print(int(data['DIAS DE GUARDIA'][i]))
-				print(int(data['FALTAS'][i]))
-				print(int(data['DIAS TRABAJADOS'][i]))
-				print(int(data['FALTAS'][i]))
-				print(float(data['SALARIO DIARIO INTEGRADO'][i]))
-				print(float(data['SUELDO PERIODO'][i]))
-				print(float(data['SUELDO DESCANSO 1'][i]))
-				print(float(data['HORAS EXTRAS DOBLES'][i]))
-				print(float(data['HORAS EXTRAS TRIPLES'][i]))
-
-				print('====================================')
-				# Reports.objects.create(
-				# 	worker = worker_obj,
-				# 	work_order = str(data['ORDEN DE TRABAJO'][i]),
-				# 	obra = str(data['OBRA'][i]),
-				# 	no_paysheet = int(data['NUMERO DE NÓMINA'][i]),
-				# 	category = str(data['CATEGORIA'][i]),
-				# 	init_period = str(data['INICIO DE DIAS REALES'][i])[:10],
-				# 	end_period = str(data['FIN DE DIAS REALES'][i])[:10],
-				# 	days_period = int(data['DIAS DE GUARDIA'][i]),
-				# 	days_off = int(data['FALTAS'][i]),
-				# 	days_working = int(data['DIAS TRABAJADOS'][i]),
-				# 	days_lack = int(data['FALTAS'][i]),
-				# 	daily_salary = float(data['SALARIO DIARIO INTEGRADO'][i]),
-				# 	period_salary = float(data['SUELDO PERIODO'][i]),
-				# 	salary_break_1 = float(data['SUELDO DESCANSO 1'][i]),
-				# 	salary_break_2 = float(data['HORAS EXTRAS DOBLES'][i]),
-				# 	adv_salary_break = float(data['HORAS EXTRAS TRIPLES'][i]),
-				# )
+				Reports.objects.create(
+					worker = worker_obj,
+					work_order = str(data['ORDEN DE TRABAJO'][i]),
+					obra = str(data['OBRA'][i]),
+					no_paysheet = int(data['NUMERO DE NÓMINA'][i]),
+					category = str(data['CATEGORIA'][i]),
+					init_period = str(data['INICIO DE DIAS REALES'][i])[:10],
+					end_period = str(data['FIN DE DIAS REALES'][i])[:10],
+					days_period = int(data['DIAS DE GUARDIA'][i]),
+					days_off = int(data['FALTAS'][i]),
+					days_working = int(data['DIAS TRABAJADOS'][i]),
+					days_lack = int(data['FALTAS'][i]),
+					daily_salary = nan_to_dec(data['SALARIO DIARIO INTEGRADO'][i]),
+					period_salary = nan_to_dec(data['SUELDO PERIODO'][i]),
+					salary_break_1 = nan_to_dec(data['SUELDO DESCANSO 1'][i]),
+					salary_break_2 = nan_to_dec(data['HORAS EXTRAS DOBLES'][i]),
+					adv_salary_break = nan_to_dec(data['HORAS EXTRAS TRIPLES'][i]),
+				)
 
 		print('==> Terminado la carga de datos!')
 	return render(request, 'upload/base_file.html', {})

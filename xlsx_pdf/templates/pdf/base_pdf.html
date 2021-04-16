@@ -1,3 +1,4 @@
+{% load humanize %}
 <!-- 
 This is intended to be rendered to a PDF using pisa, not in a browser.
 Therefore, the HTML and CSS here can look a bit fishy. Please refer to 
@@ -6,6 +7,7 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <html lang="es">
 <head>
     <meta charset="UTF-8"/>
+    <title>Nómina: A-{{ report_obj.no_paysheet }} | {{ worker_obj.key_code }}</title>
 </head>
 <style>
 /*Custom fonts*/
@@ -951,9 +953,9 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="frs_lvl_nomina" class="font_base_black">No. NOMINA</p>
 <p id="frs_lvl_recibo" class="font_base_black">No. RECIBO</p>
 
-<p id="rsl_frs_lvl_trabajo" class="font_base">AGE 2 1RA GDA T-1</p>
-<p id="rsl_frs_lvl_obra" class="font_base">OT.250</p>
-<p id="rsl_frs_lvl_nomina" class="font_base">A-174</p>
+<p id="rsl_frs_lvl_trabajo" class="font_base">{{ report_obj.work_order }}</p>
+<p id="rsl_frs_lvl_obra" class="font_base">{{ report_obj.obra }}</p>
+<p id="rsl_frs_lvl_nomina" class="font_base">A-{{ report_obj.no_paysheet }}</p>
 <p id="rsl_frs_lvl_recibo" class="font_base">1</p>
 <!--  END: F I R S T   L E V E L  -->
 
@@ -969,13 +971,13 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="scn_lvl_rfc" class="font_base_black">RFC</p>
 <p id="scn_lvl_curp" class="font_base_black">CURP</p>
 
-<p id="rsl_scn_lvl_clave" class="font_base">000914</p>
-<p id="rsl_scn_lvl_nombre" class="font_base">ADRIAN ANZURES CASTILLO</p>
-<p id="rsl_scn_lvl_cat" class="font_base">MECANICO</p>
-<p id="rsl_scn_lvl_nivel" class="font_base">MECANICO</p>
-<p id="rsl_scn_lvl_nss" class="font_base">81098904535</p>
-<p id="rsl_scn_lvl_rfc" class="font_base">AUCA891204T17</p>
-<p id="rsl_scn_lvl_curp" class="font_base">AUCA891204HCCNSD00</p>
+<p id="rsl_scn_lvl_clave" class="font_base">{{ worker_obj.key_code }}</p>
+<p id="rsl_scn_lvl_nombre" class="font_base">{{ worker_obj.full_name }}</p>
+<p id="rsl_scn_lvl_cat" class="font_base">{{ report_obj.category }}</p>
+<p id="rsl_scn_lvl_nivel" class="font_base">{{ report_obj.category }}</p>
+<p id="rsl_scn_lvl_nss" class="font_base">{{ worker_obj.imss }}</p>
+<p id="rsl_scn_lvl_rfc" class="font_base">{{ worker_obj.rfc }}</p>
+<p id="rsl_scn_lvl_curp" class="font_base">{{ worker_obj.curp }}</p>
 <!--  END:S E C O N D   L E V E L  -->
 
 <!--  T H I R D   L E V E L  -->
@@ -990,13 +992,13 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="thr_lvl_infonavit" class="font_base_black">No. CREDITO INFONAVIT</p>
 <p id="thr_lvl_salario" class="font_base_black">SALARIO DIARIO $</p>
 
-<p id="rsl_thr_lvl_pago" class="font_base">13/11/2020&nbsp;&nbsp;&nbsp;&nbsp;AL&nbsp;&nbsp;&nbsp;&nbsp;26/11/2020</p>
+<p id="rsl_thr_lvl_pago" class="font_base">{{ report_obj.period_payment }}</p>
 <p id="rsl_thr_lvl_periodo" class="font_base">14</p>
 <p id="rsl_thr_lvl_descanso" class="font_base">14</p>
 <p id="rsl_thr_lvl_laborados" class="font_base">14</p>
 <p id="rsl_thr_lvl_faltas" class="font_base">14</p>
-<p id="rsl_thr_lvl_infonavit" class="font_base">5419021047</p>
-<p id="rsl_thr_lvl_salario" class="font_base">350.85</p>
+<p id="rsl_thr_lvl_infonavit" class="font_base">{{ worker_obj.infonavit }}</p>
+<p id="rsl_thr_lvl_salario" class="font_base">{{ report_obj.daily_salary }}</p>
 <!--  END: T H I R D   L E V E L  -->
 
 
@@ -1053,12 +1055,12 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="txt_dct_total" class="font_base">TOTAL DE DEDUCCIONES</p>
 
 
-<p id="txt_rsl_prc_salary" class="font_amount">4,911.90</p>
-<p id="txt_rsl_prc_01_break" class="font_amount">.00</p>
-<p id="txt_rsl_prc_02_break" class="font_amount">.00</p>
-<p id="txt_rsl_prc_adv_salary" class="font_amount">4911.90</p>
-<p id="txt_rsl_prc_ext_double" class="font_amount">1578.93</p>
-<p id="txt_rsl_prc_ext_triple" class="font_amount">4699.61</p>
+<p id="txt_rsl_prc_salary" class="font_amount">{{ report_obj.period_salary|intcomma }}</p>
+<p id="txt_rsl_prc_01_break" class="font_amount">{{ report_obj.salary_break_1|intcomma }}</p>
+<p id="txt_rsl_prc_02_break" class="font_amount">{{ report_obj.salary_break_1|intcomma }}</p>
+<p id="txt_rsl_prc_adv_salary" class="font_amount">{{ report_obj.adv_salary_break|intcomma }}</p>
+<p id="txt_rsl_prc_ext_double" class="font_amount">{{ report_obj.extra_double|intcomma }}</p>
+<p id="txt_rsl_prc_ext_triple" class="font_amount">{{ report_obj.extra_triple|intcomma }}</p>
 <p id="txt_rsl_prc_7_day" class="font_amount">1043.40</p>
 <p id="txt_rsl_prc_dominical" class="font_amount">175.43</p>
 <p id="txt_rsl_prc_bonus" class="font_amount">201.85</p>
@@ -1102,16 +1104,16 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="txt_nums_letters" class="font_txt_num">( DIEZ MIL SEISCIENTOS TREINTA Y CINCO PESOS 27/100 M.N.)</p>
 
 <div id="sgn_line" class="signature_line">|</div>
-<p id="sgn_name" class="signature_name">JOSUE PATRICIO TAMAYO SANCHEZ</p>
+<p id="sgn_name" class="signature_name">{{ worker_obj.full_name }}</p>
 
 <p id="final_note" class="note">CANTIDAD QUE RECIBO A MI ENTERA SATISFACCIÓN, MISMA QUE CUBRE MI SALARIO, TIEMPO EXTRA, SEPTIMO DÍA Y TODAS LAS DEMAS PRESTACIONES Y PERCEPCIONES AQUÍ ANOTADAS, SIN QUE SE ME ADEUDE CANTIDAD ALGUNA POR NINGÚN OTRO CONCEPTO, HACIENDO CONSTAR QUE EN EL PERÍODO LABORÉ UN HORARIO DE TRABAJO DE OCHO HORAS DIARIAS DE LUNES A VIERNES, DE 8:00 HORAS A LAS 14:00 HORAS Y DE LAS 16:00 HORAS A LAS 18:00 HORAS Y LOS SABADOS, DE LAS 8:00 HORAS A LAS 14:00 HORAS TENIENDO DOS MEDIAS HORAS, LA PRIMERA PARA INGESTA DE ALIMENTOS Y LA SEGUNDA PARA RECOBRAR FUERZAS.</p>
 <!--  END: T O T A L S  -->
 
 <!--  ===============================  -->
 <!--  F I R S T   L E V E L  -->
-<div id="second_lvl" class="first_box">|</div>
+<!--<div id="second_lvl" class="first_box">|</div>
 
-<p id="final_note_02" class="note">CANTIDAD QUE RECIBO A MI ENTERA SATISFACCIÓN, MISMA QUE CUBRE MI SALARIO, TIEMPO EXTRA, SEPTIMO DÍA Y TODAS LAS DEMAS PRESTACIONES Y PERCEPCIONES AQUÍ ANOTADAS, SIN QUE SE ME ADEUDE CANTIDAD ALGUNA POR NINGÚN OTRO CONCEPTO, HACIENDO CONSTAR QUE EN EL PERÍODO LABORÉ UN HORARIO DE TRABAJO DE OCHO HORAS DIARIAS DE LUNES A VIERNES, DE 8:00 HORAS A LAS 14:00 HORAS Y DE LAS 16:00 HORAS A LAS 18:00 HORAS Y LOS SABADOS, DE LAS 8:00 HORAS A LAS 14:00 HORAS TENIENDO DOS MEDIAS HORAS, LA PRIMERA PARA INGESTA DE ALIMENTOS Y LA SEGUNDA PARA RECOBRAR FUERZAS.</p>
+<p id="final_note_02" class="note">CANTIDAD QUE RECIBO A MI ENTERA SATISFACCIÓN, MISMA QUE CUBRE MI SALARIO, TIEMPO EXTRA, SEPTIMO DÍA Y TODAS LAS DEMAS PRESTACIONES Y PERCEPCIONES AQUÍ ANOTADAS, SIN QUE SE ME ADEUDE CANTIDAD ALGUNA POR NINGÚN OTRO CONCEPTO, HACIENDO CONSTAR QUE EN EL PERÍODO LABORÉ UN HORARIO DE TRABAJO DE OCHO HORAS DIARIAS DE LUNES A VIERNES, DE 8:00 HORAS A LAS 14:00 HORAS Y DE LAS 16:00 HORAS A LAS 18:00 HORAS Y LOS SABADOS, DE LAS 8:00 HORAS A LAS 14:00 HORAS TENIENDO DOS MEDIAS HORAS, LA PRIMERA PARA INGESTA DE ALIMENTOS Y LA SEGUNDA PARA RECOBRAR FUERZAS.</p>-->
 
 
 </body>

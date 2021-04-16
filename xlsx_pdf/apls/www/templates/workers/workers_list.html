@@ -8,7 +8,10 @@
 	<div>
 		<ul>
 		{% for worker in workers %}
-			<li>{{ worker.key_code }} - {{ worker.full_name }}</li>			
+			<li>
+				<a href="{% url 'site:adm_worker_detail' worker.key_code %}">{{ worker.key_code }}</a> - {{ worker.full_name }} | 
+				<a href="{% url 'site:worker_detail' worker.id_uuid %}">Link</a>
+			</li>		
 		{% endfor %}
 		</ul>
 	</div>

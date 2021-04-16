@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lista de Reportes</title>
+</head>
+<body>
+
+	<div>
+		<ul>
+		{% for report in reports %}
+			<li><a href="{% url 'site:report_pdf_view' report.worker.key_code report.id_uuid %}" target="_blank">{{ report.no_paysheet }}</a> - {{ report.worker.full_name }}</li>			
+		{% endfor %}
+		</ul>
+	</div>
+
+</body>
+</html>

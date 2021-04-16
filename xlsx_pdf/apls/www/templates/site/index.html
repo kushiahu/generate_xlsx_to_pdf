@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Sistema DITRA SERVICIOS Y MANTENIMIENTO, SA DE CV{% endblock title %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <button type="button" class="btn btn-sm btn-outline-secondary">Exportar Trabajadores</button>
+    </div>
+  </div>
+
+  <h3>Trabajadores</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Ficha</th>
+          <th>Trabajador</th>
+          <th>RFC</th>
+          <th>Infonavit</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for worker_obj in workers %}
+        <tr>
+          <td>{{ worker_obj.key_code }}</td>
+          <td><a href="{% url 'site:worker_detail' worker_obj.id_uuid %}">{{ worker_obj.full_name }}</a></td>
+          <td>{{ worker_obj.rfc }}</td>
+          <td>{{ worker_obj.infonavit }}</td>
+          <td>{{ worker_obj.email }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <h3>Trabajadores Sin Correo</h3>
+
+</main>
+{% endblock content %}

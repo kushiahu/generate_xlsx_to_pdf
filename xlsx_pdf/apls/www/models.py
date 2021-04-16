@@ -116,6 +116,10 @@ class Reports(models.Model):
 		verbose_name = "Report"
 		verbose_name_plural = "Reports"
 
+	@property
+	def period_payment(self):
+		return '%s - %s' % (self.init_period, self.end_period)
+
 	def __str__(self):
 		return str(self.category)
 

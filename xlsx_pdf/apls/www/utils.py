@@ -1,6 +1,6 @@
 
 
-
+import math
 
 
 lst_zero = {
@@ -15,3 +15,7 @@ lst_zero = {
 def format_key_code(value):
 	str_value = str(value)
 	return '%s%s' % (lst_zero[6 - len(str_value)], str_value)
+
+
+def nan_to_dec(value):
+	return 0.0 if math.isnan(value) else float(value)
