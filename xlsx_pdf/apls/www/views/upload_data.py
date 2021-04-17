@@ -33,6 +33,7 @@ def upload_base_file(request):
 			key_code = format_key_code(data['id_empleado'][i])
 			if not Worker.objects.filter(key_code=key_code).exists():
 				print('Save: ' + str(key_code))
+				print('--> Nombre: ' + str(data['nombre'][i])
 				Worker.objects.create(
 					key_code = key_code,
 					name = str(data['nombre'][i]),

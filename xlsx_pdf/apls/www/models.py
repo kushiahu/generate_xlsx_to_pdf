@@ -33,7 +33,7 @@ class Worker(models.Model):
 	first_name = models.CharField(max_length=64)
 	last_name = models.CharField(max_length=64, null=True, blank=True)
 	sex = models.CharField(max_length=1, choices=SEX, null=True, blank=True)
-	marital_status = models.CharField(max_length=1, choices=MARITAL, null=True, blank=True)
+	marital_status = models.CharField(max_length=1, choices=MARITAL, default='S', null=True, blank=True)
 	age = models.PositiveIntegerField(null=True, blank=True)
 
 	status = models.CharField(max_length=1, choices=STATUS, null=True, blank=True)
