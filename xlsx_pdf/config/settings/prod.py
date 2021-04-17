@@ -26,8 +26,8 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-	BASE_DIR / 'static',
+	DIR_PROD / 'static',
 ]
 
 # # STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
-# STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = DIR_PROD / 'static'
