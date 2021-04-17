@@ -1,7 +1,7 @@
-
+# -*- coding: utf-8 -*-
+''' Utils functions '''
 
 import math
-
 
 lst_zero = {
 	5: '00000',	
@@ -17,5 +17,14 @@ def format_key_code(value):
 	return '%s%s' % (lst_zero[6 - len(str_value)], str_value)
 
 
+def remove_zeros(value):
+	return value.replace('.0', '') if '.0' in value else value
+
+def nan_to_int(value):
+	return 0 if math.isnan(value) else int(value)
+
 def nan_to_dec(value):
 	return 0.0 if math.isnan(value) else float(value)
+
+def nan_to_none(value):
+	return None if str(value) == 'nan' else remove_zeros(str(value))

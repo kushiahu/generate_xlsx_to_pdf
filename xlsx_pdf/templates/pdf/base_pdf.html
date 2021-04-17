@@ -993,11 +993,11 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="thr_lvl_salario" class="font_base_black">SALARIO DIARIO $</p>
 
 <p id="rsl_thr_lvl_pago" class="font_base">{{ report_obj.period_payment }}</p>
-<p id="rsl_thr_lvl_periodo" class="font_base">14</p>
-<p id="rsl_thr_lvl_descanso" class="font_base">14</p>
-<p id="rsl_thr_lvl_laborados" class="font_base">14</p>
-<p id="rsl_thr_lvl_faltas" class="font_base">14</p>
-<p id="rsl_thr_lvl_infonavit" class="font_base">{{ worker_obj.infonavit }}</p>
+<p id="rsl_thr_lvl_periodo" class="font_base">{{ report_obj.days_period }}</p>
+<p id="rsl_thr_lvl_descanso" class="font_base">{{ report_obj.days_off }}</p>
+<p id="rsl_thr_lvl_laborados" class="font_base">{{ report_obj.days_working }}</p>
+<p id="rsl_thr_lvl_faltas" class="font_base">{{ report_obj.days_lack }}</p>
+<p id="rsl_thr_lvl_infonavit" class="font_base">{{ worker_obj.infonavit_cln }}</p>
 <p id="rsl_thr_lvl_salario" class="font_base">{{ report_obj.daily_salary }}</p>
 <!--  END: T H I R D   L E V E L  -->
 
@@ -1061,31 +1061,31 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="txt_rsl_prc_adv_salary" class="font_amount">{{ report_obj.adv_salary_break|intcomma }}</p>
 <p id="txt_rsl_prc_ext_double" class="font_amount">{{ report_obj.extra_double|intcomma }}</p>
 <p id="txt_rsl_prc_ext_triple" class="font_amount">{{ report_obj.extra_triple|intcomma }}</p>
-<p id="txt_rsl_prc_7_day" class="font_amount">1043.40</p>
-<p id="txt_rsl_prc_dominical" class="font_amount">175.43</p>
-<p id="txt_rsl_prc_bonus" class="font_amount">201.85</p>
-<p id="txt_rsl_prc_prd_vacations" class="font_amount">80.74</p>
-<p id="txt_rsl_prc_prm_vacations" class="font_amount">20.19</p>
-<p id="txt_rsl_prc_coupon" class="font_amount">486.53</p>
-<p id="txt_rsl_prc_assists" class="font_amount">850.39</p>
-<p id="txt_rsl_prc_puntuality" class="font_amount">850.39</p>
-<p id="txt_rsl_prc_others" class="font_amount">.00</p>
-<p id="txt_rsl_prc_subsidy" class="font_amount">.00</p>
-<p id="txt_rsl_prc_infonavit" class="font_amount">.00</p>
-<p id="txt_rsl_prc_total" class="font_amount">20,471.16</p>
+<p id="txt_rsl_prc_7_day" class="font_amount">{{ report_obj.seventh_day|intcomma }}</p>
+<p id="txt_rsl_prc_dominical" class="font_amount">{{ report_obj.prm_dominical|intcomma }}</p>
+<p id="txt_rsl_prc_bonus" class="font_amount">{{ report_obj.salary_bonus|intcomma }}</p>
+<p id="txt_rsl_prc_prd_vacations" class="font_amount">{{ report_obj.period_vacancy|intcomma }}</p>
+<p id="txt_rsl_prc_prm_vacations" class="font_amount">{{ report_obj.prm_vacations|intcomma }}</p>
+<p id="txt_rsl_prc_coupon" class="font_amount">{{ report_obj.coupons|intcomma }}</p>
+<p id="txt_rsl_prc_assists" class="font_amount">{{ report_obj.award_assists|intcomma }}</p>
+<p id="txt_rsl_prc_puntuality" class="font_amount">{{ report_obj.award_puntuality|intcomma }}</p>
+<p id="txt_rsl_prc_others" class="font_amount">{{ report_obj.others_inf|intcomma }}</p>
+<p id="txt_rsl_prc_subsidy" class="font_amount">{{ report_obj.subsidy|intcomma }}</p>
+<p id="txt_rsl_prc_infonavit" class="font_amount">{{ report_obj.favor_infonavit|intcomma }}</p>
+<p id="txt_rsl_prc_total" class="font_amount">{{ report_obj.total_perceptions|intcomma }}</p>
 
-<p id="txt_rsl_dct_isr" class="font_amount">3,483.96</p>
-<p id="txt_rsl_dct_imss" class="font_amount">221.39</p>
-<p id="txt_rsl_dct_infonavit" class="font_amount">3,213.88</p>
-<p id="txt_rsl_dct_loan" class="font_amount">2,916.66</p>
-<p id="txt_rsl_dct_01_alimony" class="font_amount">.00</p>
-<p id="txt_rsl_dct_02_alimony" class="font_amount">.00</p>
-<p id="txt_rsl_dct_discount" class="font_amount">.00</p>
-<p id="txt_rsl_dct_others_discount" class="font_amount">.00</p>
-<p id="txt_rsl_dct_break_discount" class="font_amount">.00</p>
-<p id="txt_rsl_dct_special_discount" class="font_amount">.00</p>
-<p id="txt_rsl_dct_debts" class="font_amount">.00</p>
-<p id="txt_rsl_dct_total" class="font_amount">9,835.89</p>
+<p id="txt_rsl_dct_isr" class="font_amount">{{ report_obj.isr|intcomma }}</p>
+<p id="txt_rsl_dct_imss" class="font_amount">{{ report_obj.retn_imss|intcomma }}</p>
+<p id="txt_rsl_dct_infonavit" class="font_amount">{{ report_obj.amr_infonavit|intcomma }}</p>
+<p id="txt_rsl_dct_loan" class="font_amount">{{ report_obj.dct_loan|intcomma }}</p>
+<p id="txt_rsl_dct_01_alimony" class="font_amount">{{ report_obj.alimony_01|intcomma }}</p>
+<p id="txt_rsl_dct_02_alimony" class="font_amount">{{ report_obj.alimony_02|intcomma }}</p>
+<p id="txt_rsl_dct_discount" class="font_amount">{{ report_obj.various_discounts|intcomma }}</p>
+<p id="txt_rsl_dct_others_discount" class="font_amount">{{ report_obj.others_discounts|intcomma }}</p>
+<p id="txt_rsl_dct_break_discount" class="font_amount">{{ report_obj.break_discounts|intcomma }}</p>
+<p id="txt_rsl_dct_special_discount" class="font_amount">{{ report_obj.special_discounts|intcomma }}</p>
+<p id="txt_rsl_dct_debts" class="font_amount">{{ report_obj.debts|intcomma }}</p>
+<p id="txt_rsl_dct_total" class="font_amount">{{ report_obj.total_deductions|intcomma }}</p>
 <!--  END: P E R C E P T I O N S   L E V E L  -->
 
 <!--  T O T A L S  -->
@@ -1097,9 +1097,9 @@ http://www.htmltopdf.org/doc/pisa-en.html for reference
 <p id="txt_tls_voucher" class="font_base font_cursive">NETO VALES</p>
 <p id="txt_tls_total_pay" class="font_base font_cursive">NETO A PAGAR</p>
 
-<p id="txt_rsl_tls_depts" class="font_amount font_bold">$10,148.74</p>
-<p id="txt_rsl_tls_voucher" class="font_amount font_bold">$486.53</p>
-<p id="txt_rsl_tls_total_pay" class="font_amount font_bold">$10,635.27</p>
+<p id="txt_rsl_tls_depts" class="font_amount font_bold">{{ report_obj.total_receive|intcomma }}</p>
+<p id="txt_rsl_tls_voucher" class="font_amount font_bold">{{ report_obj.total_bonus|intcomma }}</p>
+<p id="txt_rsl_tls_total_pay" class="font_amount font_bold">{{ report_obj.total_pay|intcomma }}</p>
 
 <p id="txt_nums_letters" class="font_txt_num">( DIEZ MIL SEISCIENTOS TREINTA Y CINCO PESOS 27/100 M.N.)</p>
 

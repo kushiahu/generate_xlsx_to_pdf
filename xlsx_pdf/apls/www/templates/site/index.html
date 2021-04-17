@@ -16,6 +16,7 @@
     <table class="table table-striped table-sm">
       <thead>
         <tr>
+          <th>#</th>
           <th>Ficha</th>
           <th>Trabajador</th>
           <th>RFC</th>
@@ -26,18 +27,51 @@
       <tbody>
       {% for worker_obj in workers %}
         <tr>
+          <td>{{ forloop.counter }}</td>
           <td>{{ worker_obj.key_code }}</td>
           <td><a href="{% url 'site:worker_detail' worker_obj.id_uuid %}">{{ worker_obj.full_name }}</a></td>
           <td>{{ worker_obj.rfc }}</td>
-          <td>{{ worker_obj.infonavit }}</td>
-          <td>{{ worker_obj.email }}</td>
+          <td>{{ worker_obj.infonavit_cln }}</td>
+          <td>{{ worker_obj.email_cln }}</td>
         </tr>
       {% endfor %}
       </tbody>
     </table>
   </div>
   <br>
-  <h3>Trabajadores Sin Correo</h3>
+  <h3>Trabajadores Sin Correo ({{ without_email.all.count }})</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ficha</th>
+          <th>Trabajador</th>
+          <th>RFC</th>
+          <th>IMSS</th>
+          <th>Afore</th>
+          <th>Infonavit</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for worker_obj in without_email %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ worker_obj.key_code }}</td>
+          <td><a href="{% url 'site:worker_detail' worker_obj.id_uuid %}">{{ worker_obj.full_name }}</a></td>
+          <td>{{ worker_obj.rfc }}</td>
+          <td>{{ worker_obj.imss_cln }}</td>
+          <td>{{ worker_obj.afore_cln }}</td>
+          <td>{{ worker_obj.infonavit_cln }}</td>
+          <td>{{ worker_obj.email_cln }}</td>
+          <td>{{ worker_obj.get_status_display }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 </main>
 {% endblock content %}

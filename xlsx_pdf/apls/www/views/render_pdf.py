@@ -1,68 +1,18 @@
+# -*- coding: utf-8 -*-
+''' Render data to PDF Views '''
 
 # Django
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.shortcuts import render
 
 # Thirds
 from django_xhtml2pdf.utils import generate_pdf
 from xhtml2pdf import pisa
 
 # Models
-from .models import Worker, Reports
-from .forms import BaseFileForm
-from .utils import format_key_code, nan_to_dec
-
-
-# Create your views here.
-def index(request):
-	ctx = {
-		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).distinct()[:16]
-	}
-	return render(request, 'site/index.html', ctx)
-
-
-def workers_view(request):
-	# Worker.objects.all()
-	ctx = {
-		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).distinct()
-	}
-	return render(request, 'workers/workers_list.html', ctx)
-
-
-def adm_worker_detail(request, key_code):
-	try:
-		worker_obj = Worker.objects.get(key_code=key_code)
-		report_lst = worker_obj.reports.all()
-		#print(report_lst)
-		ctx = {
-			'worker_obj': worker_obj,
-			'report_lst': report_lst,
-		}
-	except Exception as e:
-		raise
-	return render(request, 'workers/workers_detail.html', ctx)
-
-def reports_view(request):
-	ctx = {
-		'reports': Reports.objects.all()
-	}
-	return render(request, 'workers/reports_list.html', ctx)
-
-
-def worker_detail(request, id_uuid):
-	try:
-		worker_obj = Worker.objects.get(id_uuid=id_uuid)
-		report_lst = worker_obj.reports.all()
-		ctx = {
-			'worker_obj': worker_obj,
-			'report_lst': report_lst,
-		}
-	except Exception as e:
-		raise
-	return render(request, 'workers/workers_detail.html', ctx)
+from apls.www.models import Worker
 
 
 # PDF Views
@@ -188,75 +138,3 @@ def report_pdf_view(request, key_code, id_uuid):
 	if pisa_status.err:
 		return HttpResponse('We had some errors <pre>' + html + '</pre>')
 	return response
-
-
-import pandas as pd
-import xlrd
-
-def upload_base_file(request):
-	print('===> upload_base_file')
-	if request.method == 'POST':
-		excel_file = request.FILES["excel_file"]
-		print(excel_file)
-
-		data = pd.read_excel(excel_file, index_col=None)
-		print(data)
-
-		for i in data.index:
-			key_code = format_key_code(data['id_empleado'][i])
-			if not Worker.objects.filter(key_code=key_code).exists():
-				print('Save: ' + str(key_code))
-				Worker.objects.create(
-					key_code = key_code,
-					name = str(data['nombre'][i]),
-					first_name = str(data['a_paterno'][i]),
-					last_name = str(data['a_materno'][i]),
-					sex = str(data['sexo'][i]),
-					marital_status = str(data['estado_civil'][i]),
-					age = str(data['edad'][i]),
-					rfc = str(data['rfc'][i]),
-					curp = str(data['curp'][i]),
-					imss = str(data['imss'][i]),
-					afore = str(data['afore'][i]),
-					infonavit = str(data['infonavit'][i]),
-					email = str(data['correo'][i])
-				)
-
-		print('==> Terminado la carga de datos!')
-	return render(request, 'upload/base_file.html', {})
-
-import math
-def upload_report_file(request):
-	print('===> upload_report_file')
-	if request.method == 'POST':
-		excel_file = request.FILES["excel_file"]
-		data = pd.read_excel(excel_file, index_col=None)
-
-		for i in data.index:
-			key_code = format_key_code(data['FICHA'][i])
-			worker_obj = Worker.objects.get(key_code=key_code)
-
-			if (not math.isnan(data['NUMERO DE NÓMINA'][i]) and 
-				not worker_obj.reports.filter(no_paysheet=int(data['NUMERO DE NÓMINA'][i])).exists()):
-				print('save: ' + key_code)
-				Reports.objects.create(
-					worker = worker_obj,
-					work_order = str(data['ORDEN DE TRABAJO'][i]),
-					obra = str(data['OBRA'][i]),
-					no_paysheet = int(data['NUMERO DE NÓMINA'][i]),
-					category = str(data['CATEGORIA'][i]),
-					init_period = str(data['INICIO DE DIAS REALES'][i])[:10],
-					end_period = str(data['FIN DE DIAS REALES'][i])[:10],
-					days_period = int(data['DIAS DE GUARDIA'][i]),
-					days_off = int(data['FALTAS'][i]),
-					days_working = int(data['DIAS TRABAJADOS'][i]),
-					days_lack = int(data['FALTAS'][i]),
-					daily_salary = nan_to_dec(data['SALARIO DIARIO INTEGRADO'][i]),
-					period_salary = nan_to_dec(data['SUELDO PERIODO'][i]),
-					salary_break_1 = nan_to_dec(data['SUELDO DESCANSO 1'][i]),
-					salary_break_2 = nan_to_dec(data['HORAS EXTRAS DOBLES'][i]),
-					adv_salary_break = nan_to_dec(data['HORAS EXTRAS TRIPLES'][i]),
-				)
-
-		print('==> Terminado la carga de datos!')
-	return render(request, 'upload/base_file.html', {})

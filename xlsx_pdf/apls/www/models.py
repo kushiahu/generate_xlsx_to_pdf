@@ -35,6 +35,7 @@ class Worker(models.Model):
 	marital_status = models.CharField(max_length=1, choices=MARITAL, null=True, blank=True)
 	age = models.PositiveIntegerField(null=True, blank=True)
 
+	status = models.CharField(max_length=1, choices=STATUS, null=True, blank=True)
 	rfc = models.CharField(max_length=13, null=True, blank=True)
 	curp = models.CharField(max_length=18, null=True, blank=True)
 	imss = models.CharField(max_length=11, null=True, blank=True)
@@ -50,6 +51,22 @@ class Worker(models.Model):
 	@property
 	def full_name(self):
 		return '%s %s %s' % (self.name, self.first_name, self.last_name)
+
+	@property
+	def imss_cln(self):
+		return self.imss if self.imss else '---'
+
+	@property
+	def afore_cln(self):
+		return self.afore if self.afore else '---'
+
+	@property
+	def infonavit_cln(self):
+		return self.infonavit if self.infonavit else '---'
+
+	@property
+	def email_cln(self):
+		return self.email if self.email else '---'
 
 	def __str__(self):
 		return self.key_code
@@ -111,6 +128,11 @@ class Reports(models.Model):
 	special_discounts = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)		# Descuento especial
 	debts = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)					# Adeudo empresa amort
 	total_deductions = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)		# TOTAL deducciones
+
+	# Totals
+	total_receive = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+	total_bonus = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+	total_pay = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
 
 	class Meta:
 		verbose_name = "Report"
