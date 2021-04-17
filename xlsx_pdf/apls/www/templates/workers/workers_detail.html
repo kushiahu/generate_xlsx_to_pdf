@@ -28,7 +28,7 @@
           <td>0</td>
           <td>$ 10,000.00 <!--|intcomma--></td>
           <td>
-          	<a href="{% url 'site:report_pdf_view' worker_obj.key_code report_obj.id_uuid %}" target="_blank">PDF</a> | 
+          	<a href="{{ report_obj.get_url_report_pdf }}" target="_blank">PDF</a> | 
           	<a href="{% url 'site:report_pdf_view' worker_obj.key_code report_obj.id_uuid %}?print=True">Descargar</a>
           </td>
         </tr>      	

@@ -4,6 +4,7 @@
 # Django
 import uuid
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -67,6 +68,9 @@ class Worker(models.Model):
 	@property
 	def email_cln(self):
 		return self.email if self.email else '---'
+
+	def get_absolute_url(self):		
+		return reverse('site:worker_detail', args=(self.id_uuid,))
 
 	def __str__(self):
 		return self.key_code
@@ -141,6 +145,9 @@ class Reports(models.Model):
 	@property
 	def period_payment(self):
 		return '%s - %s' % (self.init_period, self.end_period)
+
+	def get_url_report_pdf(self):		
+		return '/trabajador/rpt_pdf/%s/%s/' % (self.worker.key_code, self.id_uuid)
 
 	def __str__(self):
 		return str(self.category)

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from .var_env import get_environ
+
+
+DJENV = get_environ()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qj=5c2rcsbc_x-um34)9pbbr()93&q4xc*28zvj!gs-rm%#f1)'
-
+SECRET_KEY = DJENV['DJ_SECRET_KEY']
 
 # Application definition
 
@@ -122,3 +125,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email config
+# Links helpers (https://accounts.google.com/DisplayUnlockCaptcha | https://myaccount.google.com/lesssecureapps)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = DJENV['DJ_EMAIL_HOST']
+EMAIL_USE_TLS = DJENV['DJ_EMAIL_USE_TLS']
+EMAIL_PORT = DJENV['DJ_EMAIL_PORT']
+EMAIL_HOST_USER = DJENV['DJ_EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = DJENV['DJ_EMAIL_HOST_PASSWORD']

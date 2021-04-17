@@ -1,0 +1,2 @@
+¡Buen día! {{ username }}
+¡DITRA se preocupa por la integridad de la información de sus trabajadores! Por lo consiguiente te compartimos un link donde podrás encontrar la lista de nóminas.

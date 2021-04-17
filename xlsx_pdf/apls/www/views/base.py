@@ -7,6 +7,9 @@ from django.shortcuts import render
 # Models
 from apls.www.models import Worker, Reports
 
+# Mailing
+from apls.www.mailings.send_link_report import send_link
+
 
 # Create your views here.
 def index(request):
@@ -56,3 +59,8 @@ def worker_detail(request, id_uuid):
 	except Exception as e:
 		raise
 	return render(request, 'workers/workers_detail.html', ctx)
+
+
+def send_mail(request, id_uuid):
+	send_link(id_uuid, request.META['HTTP_HOST'])
+	return render(request, 'site/index.html', {})

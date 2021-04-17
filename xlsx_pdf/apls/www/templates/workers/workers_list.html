@@ -7,10 +7,10 @@
 
 	<div>
 		<ul>
-		{% for worker in workers %}
+		{% for worker_obj in workers %}
 			<li>
-				<a href="{% url 'site:adm_worker_detail' worker.key_code %}">{{ worker.key_code }}</a> - {{ worker.full_name }} | 
-				<a href="{% url 'site:worker_detail' worker.id_uuid %}">Link</a>
+				<a href="{% url 'site:adm_worker_detail' worker_obj.key_code %}">{{ worker_obj.key_code }}</a> - {{ worker_obj.full_name }} | 
+				<a href="{{ worker_obj.get_absolute_url }}">Link</a>
 			</li>		
 		{% endfor %}
 		</ul>

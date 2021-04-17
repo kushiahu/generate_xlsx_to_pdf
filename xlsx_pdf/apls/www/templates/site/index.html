@@ -20,8 +20,8 @@
           <th>Ficha</th>
           <th>Trabajador</th>
           <th>RFC</th>
-          <th>Infonavit</th>
           <th>Email</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -29,10 +29,10 @@
         <tr>
           <td>{{ forloop.counter }}</td>
           <td>{{ worker_obj.key_code }}</td>
-          <td><a href="{% url 'site:worker_detail' worker_obj.id_uuid %}">{{ worker_obj.full_name }}</a></td>
+          <td><a href="{{ worker_obj.get_absolute_url }}">{{ worker_obj.full_name }}</a></td>
           <td>{{ worker_obj.rfc }}</td>
-          <td>{{ worker_obj.infonavit_cln }}</td>
           <td>{{ worker_obj.email_cln }}</td>
+          <td><a href="{% url 'site:send_mail' worker_obj.id_uuid %}">Enviar correo</a></td>
         </tr>
       {% endfor %}
       </tbody>
