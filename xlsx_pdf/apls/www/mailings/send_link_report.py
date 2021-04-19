@@ -79,6 +79,9 @@ def send_link_all(host='localhost:8000'):
 			recipient_list = [
 				'tamayo.josue@gmail.com',
 				'pp.tamayo@hotmail.com',
+				'robero_porto@diavaz.com',
+				'claudia_lopez@diavaz.com',
+				'sandra_reyes@diavaz.com',
 			]
 			send_mail(
 				subject, message,
