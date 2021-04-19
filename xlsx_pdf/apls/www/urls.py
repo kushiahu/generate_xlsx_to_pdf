@@ -11,6 +11,7 @@ urlpatterns = [
 	path('adm/reportes/', views.reports_view, name='reports_view'),
 	path('trabajador/<uuid:id_uuid>/', views.worker_detail, name='worker_detail'),
 	path('test_send_mail/<uuid:id_uuid>/', views.send_mail, name='send_mail'),
+	path('test_send_mail/all/', views.send_mail_all, name='send_mail_all'),
 	# Upload excel files
 	path('adm/upload_base_file/', views.upload_base_file, name='upload_base_file'),
 	path('adm/upload_report_file/', views.upload_report_file, name='upload_report_file'),

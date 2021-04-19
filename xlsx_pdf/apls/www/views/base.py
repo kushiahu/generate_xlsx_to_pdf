@@ -8,7 +8,7 @@ from django.shortcuts import render
 from apls.www.models import Worker, Reports
 
 # Mailing
-from apls.www.mailings.send_link_report import send_link
+from apls.www.mailings.send_link_report import send_link, send_link_all
 
 
 # Create your views here.
@@ -21,9 +21,9 @@ def index(request):
 
 
 def workers_view(request):
-	# Worker.objects.all()
+	# Worker.objects.filter(reports__in=Reports.objects.all()).distinct()
 	ctx = {
-		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).distinct()
+		'workers': Worker.objects.all()
 	}
 	return render(request, 'workers/workers_list.html', ctx)
 
@@ -43,7 +43,7 @@ def adm_worker_detail(request, key_code):
 
 def reports_view(request):
 	ctx = {
-		'reports': Reports.objects.all()
+		'reports': Reports.objects.all().order_by('-no_paysheet')
 	}
 	return render(request, 'workers/reports_list.html', ctx)
 
@@ -63,4 +63,8 @@ def worker_detail(request, id_uuid):
 
 def send_mail(request, id_uuid):
 	send_link(id_uuid, request.META['HTTP_HOST'])
-	return render(request, 'site/index.html', {})
+	return render(request, '_mailings/success_mailing.html', {})
+
+def send_mail_all(request):
+	send_link_all(request.META['HTTP_HOST'])
+	return render(request, '_mailings/success_mailing.html', {})

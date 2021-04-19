@@ -57,7 +57,7 @@ def upload_base_file(request):
 
 		print('==> Terminado la carga de datos!')
 		print('==> Se ha añadido %s nuevos trabajadores' % str(cont))
-	return render(request, 'upload/base_file.html', {})
+	return render(request, 'upload/base_file.html', {'type_file': 'Trabajadores'})
 
 import math
 def upload_report_file(request):
@@ -169,4 +169,4 @@ def upload_report_file(request):
 				print('    --> Ficha %s' % key_code)
 
 		print('==> Terminado la carga de datos!')
-	return render(request, 'upload/base_file.html', {})
+	return render(request, 'upload/base_file.html', {'type_file': 'Nómina'})
