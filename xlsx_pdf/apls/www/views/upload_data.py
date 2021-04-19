@@ -26,7 +26,7 @@ def upload_base_file(request):
 	if request.method == 'POST':
 		excel_file = request.FILES["excel_file"]
 
-		data = pd.read_excel(excel_file, index_col=None)
+		data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
 
 		cont = 0
 

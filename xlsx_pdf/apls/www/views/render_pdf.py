@@ -132,8 +132,7 @@ def report_pdf_view(request, key_code, id_uuid):
 	html = template.render(ctx)
 
 	# create a pdf
-	pisa_status = pisa.CreatePDF(
-		html, dest=response, link_callback=link_callback)
+	pisa_status = pisa.CreatePDF(html, dest=response)
 	# if error then show some funy view
 	if pisa_status.err:
 		return HttpResponse('We had some errors <pre>' + html + '</pre>')
