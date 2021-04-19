@@ -31,7 +31,7 @@ STATICFILES_DIRS = [
 ]
 
 # # STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
-STATIC_ROOT = DIR_PROD / 'static'
+STATIC_ROOT = DIR_PROD / 'static/'
 
 
 # Media files (Images, xls, word, pdf, etc...)
