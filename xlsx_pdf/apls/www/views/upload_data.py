@@ -63,7 +63,7 @@ def upload_report_file(request):
 		excel_file = request.FILES["excel_file"]
 		print(excel_file)
 
-		data = pd.read_excel(excel_file, index_col=None)
+		data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
 
 		for i in data.index:
 			key_code = format_key_code(data['FICHA'][i])
