@@ -13,9 +13,11 @@ from apls.www.mailings.send_link_report import send_link
 
 # Create your views here.
 def index(request):
+	from django.conf import settings
 	ctx = {
 		'workers': Worker.objects.filter(reports__in=Reports.objects.all()).order_by('key_code').distinct()[:16],
 		'without_email': Worker.objects.filter(email=None),
+		'static_root': settings.STATIC_ROOT,
 	}
 	return render(request, 'site/index.html', ctx)
 
