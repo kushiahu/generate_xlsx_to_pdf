@@ -26,7 +26,10 @@ def upload_base_file(request):
 	if request.method == 'POST':
 		excel_file = request.FILES["excel_file"]
 
-		data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
+		if '.xlsx' in excel_file:
+			data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
+		else:
+			data = pd.read_excel(excel_file, index_col=None)
 
 		cont = 0
 
@@ -63,7 +66,10 @@ def upload_report_file(request):
 		excel_file = request.FILES["excel_file"]
 		print(excel_file)
 
-		data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
+		if '.xlsx' in excel_file:
+			data = pd.read_excel(excel_file, index_col=None, engine='openpyxl')
+		else:
+			data = pd.read_excel(excel_file, index_col=None)
 
 		for i in data.index:
 			key_code = format_key_code(data['FICHA'][i])
