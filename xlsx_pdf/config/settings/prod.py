@@ -27,7 +27,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
 	BASE_DIR / 'static',
-	'/www/ditra.com/static/',
 ]
 
 # # STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
