@@ -13,6 +13,7 @@ class Worker(models.Model):
 	SEX = (
 		('F', 'Femenino'),
 		('M', 'Masculino'),
+		('I', 'Indefinido'),
 	)
 
 	MARITAL = (

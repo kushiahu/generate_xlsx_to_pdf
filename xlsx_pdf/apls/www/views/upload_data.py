@@ -14,6 +14,7 @@ from apls.www.models import Worker, Reports
 from apls.www.utils import (
 	format_key_code, nan_to_none,
 	 nan_to_dec, nan_to_int,
+	 nan_to_sex, nan_to_marital
 )
 
 
@@ -38,8 +39,8 @@ def upload_base_file(request):
 					name = str(data['nombre'][i]),
 					first_name = str(data['a_paterno'][i]),
 					last_name = str(data['a_materno'][i]),
-					sex = str(data['sexo'][i]),
-					marital_status = str(data['estado_civil'][i]),
+					sex = nan_to_sex(data['sexo'][i]),
+					marital_status = nan_to_marital(data['estado_civil'][i]),
 					age = nan_to_int(data['edad'][i]),
 					rfc = nan_to_none(data['rfc'][i]),
 					curp = nan_to_none(data['curp'][i]),

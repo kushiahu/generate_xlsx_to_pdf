@@ -28,3 +28,11 @@ def nan_to_dec(value):
 
 def nan_to_none(value):
 	return None if str(value) == 'nan' else remove_zeros(str(value))
+
+
+# Other utils
+def nan_to_sex(value):
+	return 'I' if str(value) == 'nan' else str(value)
+
+def nan_to_marital(value):
+	return 'S' if str(value) == 'nan' else str(value)
