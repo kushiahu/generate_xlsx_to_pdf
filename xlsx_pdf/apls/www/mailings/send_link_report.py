@@ -17,10 +17,13 @@ def send_link(worker_id, host='localhost:8000'):
 	print('--- send_link ---')
 	try:
 		worker_obj = Worker.objects.get(id_uuid=worker_id)
+		report_lst = worker_obj.reports.all()
 
 		ctx = {
 			'username': worker_obj.full_name,
 			'report_url': 'http://%s%s' % (host, worker_obj.get_absolute_url()),
+			'host': host,
+			'report_lst': report_lst,
 		}
 
 		data_plain = {

@@ -68,3 +68,16 @@ def send_mail(request, id_uuid):
 def send_mail_all(request):
 	send_link_all(request.META['HTTP_HOST'])
 	return render(request, '_mailings/success_mailing.html', {})
+
+
+def example_mail(request, id_uuid):
+	worker_obj = Worker.objects.get(id_uuid=id_uuid)
+	report_lst = worker_obj.reports.all()
+
+	ctx = {
+		'username': worker_obj.full_name,
+		'report_url': 'http://%s%s' % (request.META['HTTP_HOST'], worker_obj.get_absolute_url()),
+		'host': request.META['HTTP_HOST'],
+		'report_lst': report_lst,
+	}
+	return render(request, '_mailings/report_link.html', ctx)

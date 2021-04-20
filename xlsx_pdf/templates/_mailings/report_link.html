@@ -31,6 +31,12 @@
 		.last {
 			padding-bottom: 20px;
 		}
+		ul {
+			list-style: none;
+		}
+		.link-help {
+			color: gray;
+		}
 	</style>
 </head>
 <body>
@@ -39,7 +45,23 @@
 			<div>
 				<h2>Buen día! <strong>{{ username }}</strong></h2>
 				<p class="soon">¡DITRA se preocupa por la integridad de la información de sus trabajadores! Por lo consiguiente te compartimos un link donde podrás encontrar la lista de nóminas.</p>
+
+				Nominas de los siguientes periodos:
+				<ul>
+				{% for report_obj in report_lst %}
+					<li>
+						Nómina: <strong>{{ report_obj.no_paysheet }}</strong> ({{ report_obj.period_payment }}) |
+						<a href="http://{{ host }}{{ report_obj.get_url_report_pdf }}?print=True">Descargar</a>
+					</li>
+				{% endfor %}					
+				</ul>
+
+				Para visualizar la lista de sus nóminas:
 				<a href="{{ report_url }}" target="_blank">Link para ver nóminas</a>
+				<br>
+				<br>
+				<br>
+				<small class="link-help">Link de visualización: <strong>{{ report_url }}</strong></small>
 			</div>
 			<div class="last">
 				<br>

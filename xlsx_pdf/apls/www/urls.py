@@ -20,4 +20,6 @@ urlpatterns = [
 	path('trabajador/rpt_pdf/<str:key_code>/<uuid:id_uuid>/', views.report_pdf_view, name='report_pdf_view'),
 	path('view_pdf/', views.view_pdf, name='view_pdf'),
 	path('render_pdf_view/', views.render_pdf_view, name='render_pdf_view'),
+	# Example mailing
+	path('adm/mailing/<uuid:id_uuid>/', views.example_mail, name='example_mail'),
 ]
